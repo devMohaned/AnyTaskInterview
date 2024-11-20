@@ -1,0 +1,252 @@
+Prerequisites:
+ - Postman
+ - Docker
+ - Database Tool
+ - Java 17 JDK
+ - IDE to view the code
+ - Maven
+
+
+First, You'll need to install the prior tools, otherwise you'll not be able to use this app.
+IMPORTANT: You'll need to have a Database Tool like PgAdmin or DBeaver to access the database and view the needed IDs (and use those IDs for other APIs)
+
+
+0. Open this website "https://editor.swagger.io/"
+    0.1: Go to task_project/resources/swagger.yaml
+    0.2: Copy all the content (YAML)
+    0.3: Paste the content into the website "https://editor.swagger.io/"
+    0.4: View the APIs available
+
+
+1. Docker (Optional Step If you have a local PostgreSQL database ready)
+    1.1: Download and install Docker
+    1.2: Download this image "https://hub.docker.com/_/postgres" (Note: I am using tag "12")
+    1.3: Create your container with the needed credential (BE AWARE, you'll need these information in the Spring Boot application.yaml configuration)
+        1.31: Write your Database Name & Username & Password & Port
+    1.4: Run the Container on the specified port number
+
+2. Postman
+    2.1: Download and install Postman (You might need to register)
+    2.2: Go to task_project/resources/Task API.postman_collection.json
+        2.21: Copy the content
+        2.22: Import (Paste) the Collection into Postman
+    2.3: You'll find User & Tasks folders
+        2.31: Users folder is related to authentication and users' related data
+        2.32: Tasks folder is related to the tasks.
+    2.4: Modify the request to test the APIs as you want (Note, you'll need to view the IDs from the database after insertion to use other APIs)
+    2.5: The APIs that do not need JWT tokens are:
+        2.51: "/api/users/register" which registers a user
+        2.52: "/authenticate" which returns the JWT token
+    2.6: All Other APIs endpoints require JWT token
+    2.7: Most of APIs require some kind of a role, however some APIs do not need any role
+
+3. IDE (Project Setup)
+    3.1: Clone the project to your directory
+    3.2: Download and Install Maven
+    3.3: Download and Install your favorite Java IDE
+    3.4: Open the project using that IDE
+    3.5: Open task_project/resources/application.yaml
+        3.51: Go to Mail Configuration
+            3.511: Change The username to your email
+            3.512: Change the password to your app Password
+            3.513: You might need to disable your antivirus if you're running it locally.
+            3.514: In com/technical/task/task_project/service/EmailService.java
+                There's hard coded email, you'll need to change it or use the "to" variable, however make sure that you do not spam any human
+        3.52: Go to Database Configuration
+            3.521: Change the url to match your port and database name (from 1.31)
+            3.522: Change your username to match the database username
+            3.523: Change your password to match the database password
+        3.53: Go to JWT Configuration (NOT MANDATORY)
+            3.531: Change your secret-key if you want to
+            3.532: Change your JWT Time To Live (ttl) if you want to
+        3.54: Go to Rate Limiting Configuration (NOT MANDATORY)
+            3.541: Change your maximum number of requests per duration (both are configurable, defaulting them to be 15 requests per 1 minute)
+        3.53: Go to Notification Configuration (NOT MANDATORY)
+            3.531: Change the amount of days that are buffered (If the due date is less than this amount, It'll notify the user in the cron job)
+    3.6: After setting up your configuration
+    3.7: Open task_project/resources/data.sql
+        3.71: Install Your database tool or access Database using terminal
+        3.72: Run the SQL script in your PostgreSQL database (using Your database tool or terminal, whatever you prefer)
+    3.8: Go to com/technical/task/task_project/job/TasksScheduler.java
+        3.81: Change the Cron Job expression to a shorter period of time
+
+Finally Now, Run the project and test the functionality of the application using Postman. (You'll need the database to verify storing and reading the IDs from the database tables)
+
+
+
+Those are dummy samples to give you context, sample per API is available in the Postman collection, feel free to modify and test
+
+===========================Creating USERS===========================
+Users: Insert a user from these pre-prepared (Request Body)
+
+- All Roles:
+  {
+    "name": "Admin User",
+    "email": "admin@example.com",
+    "password": "hashedPassword1",
+    "roles": ["ADMIN", "SCRUM", "DEVELOPER", "END_USER"]
+  }
+
+- Only Developer:
+  {
+    "name": "Developer User",
+    "email": "dev@example.com",
+    "password": "hashedPassword2",
+    "roles": ["DEVELOPER"]
+  }
+
+- Scrum Master:
+  {
+    "name": "Scrum Master",
+    "email": "scrum@example.com",
+    "password": "hashedPassword3",
+    "roles": ["SCRUM"]
+  }
+
+- End User:
+  {
+    "name": "Inactive User",
+    "email": "inactive@example.com",
+    "password": "hashedPassword4",
+    "roles": ["END_USER"]
+  }
+
+- Project Manager:
+  {
+    "name": "Project Manager",
+    "email": "pm@example.com",
+    "password": "hashedPassword5",
+    "roles": ["SCRUM", "END_USER"]
+  }
+
+
+=======================Creating Tasks==========================
+- Reporter is admin, Assigned is developer:
+  {
+    "title": "Task 1",
+    "description": "Description for Task 1",
+    "status": "TODO",
+    "priority": 1,
+    "dueDate": "2024-01-10",
+    "assignedUserId": "uuid-of-developer-user",
+    "reporterUserId": "uuid-of-admin-user",
+    "shouldNotifyUser": false
+  }
+
+- Reporter is admin, Assigned is scrum master:
+  {
+    "title": "Task 2",
+    "description": "Description for Task 2",
+    "status": "IN_PROGRESS",
+    "priority": 2,
+    "dueDate": "2024-02-15",
+    "assignedUserId": "uuid-of-scrum-master",
+    "reporterUserId": "uuid-of-admin-user",
+    "shouldNotifyUser": false
+  }
+
+- Reporter is admin, Assigned is scrum master, Will send email to the assigned user:
+  {
+    "title": "Task 3",
+    "description": "High Priority Task",
+    "status": "IN_PROGRESS",
+    "priority": 10,
+    "dueDate": "2024-01-05",
+    "assignedUserId": "uuid-of-scrum-master",
+    "reporterUserId": "uuid-of-admin-user",
+    "shouldNotifyUser": true
+  }
+
+- Reporter is admin, No-one is assigned:
+  {
+    "title": "Task 4",
+    "description": "Task without assignee",
+    "status": "TODO",
+    "priority": 3,
+    "dueDate": "2024-03-20",
+    "assignedUserId": null,
+    "reporterUserId": "uuid-of-admin-user",
+    "shouldNotifyUser": false
+  }
+
+- Reporter is scrum master, developer is assigned:
+  {
+    "title": "Task 5",
+    "description": "Completed Task Example",
+    "status": "DONE",
+    "priority": 5,
+    "dueDate": "2024-01-01",
+    "assignedUserId": "uuid-of-developer-user",
+    "reporterUserId": "uuid-of-scrum-user",
+    "shouldNotifyUser": false
+  }
+
+- Reporter is Admin, end user is assigned
+  {
+    "title": "Task 6",
+    "description": "End User Task Example",
+    "status": "TODO",
+    "priority": 4,
+    "dueDate": "2024-04-01",
+    "assignedUserId": "uuid-of-active-end-user",
+    "reporterUserId": "uuid-of-admin-user",
+    "shouldNotifyUser": false
+  }
+
+
+
+====================History===========
+
+- Task Created
+  {
+    "taskId": "uuid-of-task-1",
+    "changeDescription": "Task Created",
+    "changedBy": "uuid-of-admin-user",
+    "changeDate": "2024-01-01T10:00:00"
+  }
+
+- Status changed
+  {
+    "taskId": "uuid-of-task-2",
+    "changeDescription": "Status changed to IN_PROGRESS",
+    "changedBy": "uuid-of-scrum-master",
+    "changeDate": "2024-01-02T12:00:00"
+  }
+
+- Priority Changes
+  {
+    "taskId": "uuid-of-task-3",
+    "changeDescription": "Priority updated to 10",
+    "changedBy": "uuid-of-admin-user",
+    "changeDate": "2024-01-03T15:00:00"
+  }
+
+
+====================Notification===========
+
+- Task assigned
+  {
+    "userId": "uuid-of-developer-user",
+    "message": "You have been assigned to Task 1",
+    "isRead": false,
+    "notificationDate": "2024-01-01T10:15:00",
+    "relatedTaskId": "uuid-of-task-1"
+  }
+
+- Task status updated
+  {
+    "userId": "uuid-of-scrum-master",
+    "message": "Task 2 status changed to IN_PROGRESS",
+    "isRead": false,
+    "notificationDate": "2024-01-02T12:30:00",
+    "relatedTaskId": "uuid-of-task-2"
+  }
+
+- Task reminder cron job
+  {
+    "userId": "uuid-of-admin-user",
+    "message": "Reminder: Task 5 due soon",
+    "isRead": true,
+    "notificationDate": "2024-01-03T09:00:00",
+    "relatedTaskId": "uuid-of-task-5"
+  },

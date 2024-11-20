@@ -1,0 +1,314 @@
+{
+	"info": {
+		"_postman_id": "d85da59b-a76b-4037-8777-b0016731b2bc",
+		"name": "Task API Copy",
+		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json",
+		"_exporter_id": "23277089"
+	},
+	"item": [
+		{
+			"name": "Users API",
+			"item": [
+				{
+					"name": "Saving a User",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\": \"I am an admin, and this is my name\",\r\n    \"email\": \"admin@admin.com\",\r\n    \"password\": \"passwordToBeEncodedAndSaved\",\r\n    \"roles\": [\r\n        \"ADMIN\",\r\n        \"SCRUM\",\r\n        \"DEVELOPER\",\r\n        \"END_USER\"\r\n    ]\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "http://localhost:8080/api/users/register"
+					},
+					"response": []
+				},
+				{
+					"name": "Auenticate a User",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"email\": \"admin@admin.com\",\r\n    \"password\": \"passwordToBeEncodedAndSaved\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "http://localhost:8080/authenticate"
+					},
+					"response": []
+				},
+				{
+					"name": "Get All Users",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzI1NiJ9.eyJyb2xlcyI6WyJST0xFX0RFVkVMT1BFUiIsIlJPTEVfU0NSVU0iLCJST0xFX0FETUlOIiwiUk9MRV9FTkRfVVNFUiJdLCJzdWIiOiJhZG1pbkBhZG1pbi5jb20iLCJpYXQiOjE3MzE3ODYyMDIsImV4cCI6MTczMTgyMjIwMn0.bg6PSO2tPBK16LwndCP1OOMccS1tYRMC_Nu1YNwgsJo",
+								"type": "text"
+							}
+						],
+						"url": "http://localhost:8080/api/users"
+					},
+					"response": []
+				},
+				{
+					"name": "Get A single user",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzI1NiJ9.eyJyb2xlcyI6WyJST0xFX0RFVkVMT1BFUiIsIlJPTEVfU0NSVU0iLCJST0xFX0FETUlOIiwiUk9MRV9FTkRfVVNFUiJdLCJzdWIiOiJhZG1pbkBhZG1pbi5jb20iLCJpYXQiOjE3MzE3ODYyMDIsImV4cCI6MTczMTgyMjIwMn0.bg6PSO2tPBK16LwndCP1OOMccS1tYRMC_Nu1YNwgsJo",
+								"type": "text"
+							}
+						],
+						"url": "http://localhost:8080/api/users/879411d0-22b2-4067-a194-5c72f3537582"
+					},
+					"response": []
+				},
+				{
+					"name": "Updating User",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzI1NiJ9.eyJyb2xlcyI6WyJST0xFX0RFVkVMT1BFUiIsIlJPTEVfU0NSVU0iLCJST0xFX0FETUlOIiwiUk9MRV9FTkRfVVNFUiJdLCJzdWIiOiJhZG1pbkBhZG1pbi5jb20iLCJpYXQiOjE3MzE3ODYyMDIsImV4cCI6MTczMTgyMjIwMn0.bg6PSO2tPBK16LwndCP1OOMccS1tYRMC_Nu1YNwgsJo",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\": \"I am an UPDATED user, and this is my name\",\r\n    \"email\": \"user@user.com\",\r\n    \"roles\": [\r\n        \"END_USER\",\r\n        \"ADMIN\"\r\n    ],\r\n    \"active\": true\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "http://localhost:8080/api/users/879411d0-22b2-4067-a194-5c72f3537582"
+					},
+					"response": []
+				},
+				{
+					"name": "Delete a User",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzI1NiJ9.eyJyb2xlcyI6WyJST0xFX0RFVkVMT1BFUiIsIlJPTEVfU0NSVU0iLCJST0xFX0FETUlOIiwiUk9MRV9FTkRfVVNFUiJdLCJzdWIiOiJhZG1pbkBhZG1pbi5jb20iLCJpYXQiOjE3MzE3ODYyMDIsImV4cCI6MTczMTgyMjIwMn0.bg6PSO2tPBK16LwndCP1OOMccS1tYRMC_Nu1YNwgsJo",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\": \"I am an UPDATED user, and this is my name\",\r\n    \"email\": \"user@user.com\",\r\n    \"roles\": [\r\n        \"END_USER\",\r\n        \"ADMIN\"\r\n    ],\r\n    \"active\": false\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "http://localhost:8080/api/users/879411d0-22b2-4067-a194-5c72f3537582"
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Tasks API",
+			"item": [
+				{
+					"name": "Saving a Task",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"title\": \"This is a title for a task\",\r\n    \"description\": \"This is a description, which can be totally removed as description is an optional\",\r\n    \"status\": \"TODO\",\r\n    \"priority\": 1,\r\n    \"dueDate\": \"2024-11-22\",\r\n    \"assignedUserId\": \"b8b37209-15a4-4fcd-9bc7-fe0ad471b23e\",\r\n    \"reporterUserId\": \"b8b37209-15a4-4fcd-9bc7-fe0ad471b23e\",\r\n    \"shouldNotifyUser\": false\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "http://localhost:8080/api/tasks"
+					},
+					"response": []
+				},
+				{
+					"name": "Assign a User to a Task",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/api/tasks/UUID_FOR_TASK/assign?assignedUserId=UUID_FOR_USER_TO_BE_ASSIGNED",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"tasks",
+								"UUID_FOR_TASK",
+								"assign"
+							],
+							"query": [
+								{
+									"key": "assignedUserId",
+									"value": "UUID_FOR_USER_TO_BE_ASSIGNED"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Updating a Task",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"title\": \"This is a NEW title for a task\",\r\n    \"description\": \"This is an UPDATED description, which can be totally removed as description is an optional\",\r\n    \"status\": \"IN_PROGRESS\",\r\n    \"priority\": 5,\r\n    \"dueDate\": \"2024-11-28\",\r\n    \"assignedUserId\": \"b8b37209-15a4-4fcd-9bc7-fe0ad471b23e\",\r\n    \"reporterUserId\": \"b8b37209-15a4-4fcd-9bc7-fe0ad471b23e\",\r\n    \"shouldNotifyUser\": false\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "http://localhost:8080/api/tasks/918938e0-2ac9-48e3-a589-6b3f0ff5ccac"
+					},
+					"response": []
+				},
+				{
+					"name": "Delete a Task",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": "http://localhost:8080/api/tasks/918938e0-2ac9-48e3-a589-6b3f0ff5ccac"
+					},
+					"response": []
+				},
+				{
+					"name": "Get a Task",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": "http://localhost:8080/api/tasks/2d30fe14-da7a-45a6-b342-ec02931f5966"
+					},
+					"response": []
+				},
+				{
+					"name": "Search for a task (Filter)",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/api/tasks/search?title=Title&description=Description&status=TODO&minPriority=0&maxPriority=10&assignedUserId=dfe68972-9bbc-4db7-80ad-f91843c6e987&reporterUserId=b8b37209-15a4-4fcd-9bc7-fe0ad471b23e&startDate=2024-11-15&endDate=2024-12-28&page=0&size=5",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"tasks",
+								"search"
+							],
+							"query": [
+								{
+									"key": "title",
+									"value": "Title"
+								},
+								{
+									"key": "description",
+									"value": "Description"
+								},
+								{
+									"key": "status",
+									"value": "TODO"
+								},
+								{
+									"key": "minPriority",
+									"value": "0"
+								},
+								{
+									"key": "maxPriority",
+									"value": "10"
+								},
+								{
+									"key": "assignedUserId",
+									"value": "dfe68972-9bbc-4db7-80ad-f91843c6e987"
+								},
+								{
+									"key": "reporterUserId",
+									"value": "b8b37209-15a4-4fcd-9bc7-fe0ad471b23e"
+								},
+								{
+									"key": "startDate",
+									"value": "2024-11-15"
+								},
+								{
+									"key": "endDate",
+									"value": "2024-12-28"
+								},
+								{
+									"key": "page",
+									"value": "0"
+								},
+								{
+									"key": "size",
+									"value": "5"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get All Tasks",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": "http://localhost:8080/api/tasks"
+					},
+					"response": []
+				}
+			]
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
+		}
+	]
+}
